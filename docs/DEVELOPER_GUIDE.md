@@ -560,16 +560,23 @@ curl http://localhost:8080/health
 
 ### Adding a New Use Case Template
 
-1. Add template to `data/configuration/slo_templates.json`:
+1. Add use case entry to `src/planner/data/configuration/usecase_slo_workload.json`:
 ```json
-{
-  "use_case": "new_use_case",
-  "description": "Description",
-  "prompt_tokens_mean": 200,
-  "generation_tokens_mean": 150,
-  "ttft_p90_target_ms": 250,
-  "tpot_p90_target_ms": 60,
-  "e2e_p90_target_ms": 3000
+"new_use_case": {
+  "display_name": "New Use Case",
+  "description": "Description of the use case",
+  "workload": {
+    "active_fraction": 0.20,
+    "requests_per_active_user_per_min": 0.4,
+    "peak_multiplier": 2.0,
+    "prompt_tokens": 512,
+    "output_tokens": 256
+  },
+  "slo_targets": {
+    "ttft_ms": {"min": 100, "max": 500},
+    "itl_ms": {"min": 15, "max": 50},
+    "e2e_ms": {"min": 5000, "max": 25000}
+  }
 }
 ```
 
