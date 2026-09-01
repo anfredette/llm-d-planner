@@ -10,12 +10,12 @@ from planner.shared.schemas.specification import SLORange
 logger = logging.getLogger(__name__)
 
 
+_ACRONYMS = {"rag": "RAG", "llm": "LLM", "ai": "AI"}
+
+
 def _format_display_name(use_case_id: str) -> str:
-    """Fallback: title-case the key with acronym fixes."""
-    formatted = use_case_id.replace("_", " ").title()
-    for wrong, right in {"Rag": "RAG", "Llm": "LLM", "Ai": "AI"}.items():
-        formatted = formatted.replace(wrong, right)
-    return formatted
+    """Fallback: title-case the key with whole-word acronym fixes."""
+    return " ".join(_ACRONYMS.get(w, w.title()) for w in use_case_id.split("_"))
 
 
 class UseCaseConfig:

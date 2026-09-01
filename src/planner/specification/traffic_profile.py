@@ -65,9 +65,9 @@ class TrafficProfileGenerator:
             ttft_target_ms=ttft_target,
             itl_target_ms=itl_target,
             e2e_target_ms=e2e_target,
-            ttft_range=uc.ttft_range,
-            itl_range=uc.itl_range,
-            e2e_range=uc.e2e_range,
+            ttft_range=uc.ttft_range.model_copy(),
+            itl_range=uc.itl_range.model_copy(),
+            e2e_range=uc.e2e_range.model_copy(),
         )
 
     def _estimate_qps(self, uc: UseCaseConfig, user_count: int) -> float:

@@ -420,10 +420,11 @@ See `docs/PROGRAMMATIC_API_USER_GUIDE.md` for complete API pipeline documentatio
 
 **Adding a new use case template**:
 1. Add corresponding entry to `src/planner/data/configuration/usecase_slo_workload.json` (bundled data file)
-2. Add category weights entry to `src/planner/data/configuration/quality_weights.json` (bundled data file)
-3. Update `docs/QUALITY_SCORING_GUIDE.md` with category weighting rationale
-4. Update docs/ARCHITECTURE.md if needed
-5. Test quality scoring with the new use case: `cd src && uv run pytest ../tests/quality_scoring/test_scoring.py -v`
+2. Add the new key to the `Literal` type in `src/planner/shared/schemas/intent.py`
+3. Add category weights entry to `src/planner/data/configuration/quality_weights.json` (bundled data file)
+4. Update `docs/QUALITY_SCORING_GUIDE.md` with category weighting rationale
+5. Update docs/ARCHITECTURE.md if needed
+6. Test quality scoring with the new use case: `cd src && uv run pytest ../tests/quality_scoring/test_scoring.py -v`
 
 Note: Data files are now at `src/planner/data/` and are bundled in the Python wheel.
 

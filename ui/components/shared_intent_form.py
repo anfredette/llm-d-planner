@@ -9,6 +9,20 @@ from api_client import fetch_catalog_model_ids, fetch_gpu_types, fetch_use_cases
 
 PRIORITY_OPTIONS = ["low", "medium", "high"]
 
+# Static fallback when the backend is unreachable.  Keeps the dropdown usable
+# until fetch_use_cases() succeeds and caches a real response.
+_FALLBACK_USE_CASE_KEYS = [
+    "chatbot_conversational",
+    "code_completion",
+    "code_generation_detailed",
+    "translation",
+    "content_generation",
+    "summarization_short",
+    "document_analysis_rag",
+    "long_document_summarization",
+    "research_legal_analysis",
+]
+
 
 def render_intent_fields(
     defaults: dict | None = None,
@@ -25,8 +39,15 @@ def render_intent_fields(
     """
     defaults = defaults or {}
 
-    # Use case — display names from API (single source of truth)
+    # Use case — display names from API, with static fallback if backend is down.
+    # The fallback prevents fetch_use_cases()'s cached {} from disabling the dropdown.
+    # See https://github.com/llm-d-incubation/llm-d-planner/issues/356 for the
+    # systemic api_client.py caching problem.
     use_case_data = fetch_use_cases()
+    if not use_case_data:
+        use_case_data = {
+            k: {"display_name": k.replace("_", " ").title()} for k in _FALLBACK_USE_CASE_KEYS
+        }
     use_case_keys = list(use_case_data.keys())
     use_case_display = {k: v.get("display_name", k) for k, v in use_case_data.items()}
 

@@ -580,8 +580,10 @@ curl http://localhost:8080/health
 }
 ```
 
-2. Update `src/planner/intent_extraction/extractor.py` USE_CASE_MAP
-3. Restart backend
+2. Add the new key to the `Literal` type in `src/planner/shared/schemas/intent.py`
+3. Add category weights entry to `src/planner/data/configuration/quality_weights.json`
+4. If the LLM tends to hallucinate a different name for this use case, add an alias to `_USE_CASE_ALIASES` in `src/planner/intent_extraction/extractor.py`
+5. Restart backend
 
 ### Modifying the UI
 
